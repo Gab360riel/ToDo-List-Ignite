@@ -1,0 +1,7 @@
+.separator{
+    width: 46rem;
+    margin-top: 1.5rem;
+    border-top: 1.5px solid var(--gray-400);
+    border-radius: 8px;
+    height: 4rem;
+}

@@ -1,0 +1,28 @@
+.taskCounter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 11rem;
+    justify-content: space-between;
+}
+
+.text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--blue-400);
+}
+
+.textConcluded {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--purple-400);
+}
+
+.showNumber {
+    background: var(--gray-400);
+    border-radius: 18px;
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+    font-weight: bold;
+    color: var(--gray-200);
+}

@@ -1,0 +1,69 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: -2rem;
+    
+}
+
+.container .form {
+    display: flex;
+    width: 46rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .form textarea {
+    width: 100%;
+    background: var(--gray-500);
+    border: 1px solid var(--gray-700);
+    overflow-y: hidden;
+    resize: none;
+    height: 3.38rem;
+    padding: .95rem;
+    border-radius: 8px;
+    color: var(--gray-300);
+    line-height: 1.4;
+    margin-right: 4px;
+    vertical-align: auto;
+}
+
+.container .form button[type=submit] {
+    display: flex;
+    flex-direction: row;
+    list-style: 1.4;
+    padding: 1rem 1rem;
+    border-radius: 8px;
+    border: 0;
+    background: var(--blue-700);
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.container .form button[type=submit] svg{
+    margin-left: .25rem;
+}
+
+.container .form button[type=submit]:not(:disabled):hover{
+    background: var(--blue-400);
+}
+
+.container .form button[type=submit]:disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.container .taskContainer {
+    margin-top: 64px;
+    width: 46rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
