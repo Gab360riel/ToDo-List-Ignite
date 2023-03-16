@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, InvalidEvent, useEffect, useState } from 'react'
 import { PlusCircle } from 'phosphor-react'
 import { Header } from './components/Header'
 import { TaskCounter } from './components/TaskCounter'
@@ -6,16 +6,43 @@ import { TaskCounter } from './components/TaskCounter'
 import styles from './App.module.css'
 import './global.css'
 import { EmptyTasks } from './components/EmptyTasks'
+import { Task } from './components/Tasks'
 
+
+interface Tasks{
+  id: number,
+  text: string,
+  concluded: boolean
+}
 
 function App() {
-  const [tasks, setTasks] = useState<string[]>([])
+  const [tasks, setTasks] = useState<Tasks[]>(
+    [
+      {
+        id: 1,
+        text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
+        concluded: false,
+      }, 
+      {
+        id: 2,
+        text: 'Integer urna interdum massa libero auctor neque turpis turpis semper.',
+        concluded: true
+      }
+    ]
+  )
   const [newTask, setNewTask] = useState<string>('');
+  const [concludedTasks, setConcludedTasks] = useState(tasks.filter((task) => task.concluded === true))
 
   function handleCreateNewTask(e: FormEvent) {
     e.preventDefault();
 
-    setTasks([...tasks, newTask])
+    const newObjectTask: Tasks = {
+      id: Math.random() * 1000,
+      text: newTask,
+      concluded: false
+    }
+
+    setTasks([...tasks, newObjectTask])
     setNewTask('');
   }
 
@@ -26,6 +53,29 @@ function App() {
 
   function handleNewTaskInvalid(e: InvalidEvent<HTMLTextAreaElement>) {
     e.target.setCustomValidity("Insira um valor válido para publicar a tarefa!")
+  }
+
+  function updateTasks(value: boolean, id: number, position: number){
+    const updateTask = tasks.filter((task) => task.id === id)
+    updateTask[0].concluded = value
+    
+    const updatedTasksArray = tasks
+
+    updatedTasksArray.splice(position, 1, updateTask[0])
+
+    setTasks(updatedTasksArray)
+    setConcludedTasks(updatedTasksArray.filter((task) => task.concluded === true))
+  }
+
+  function removeTasks(id: number) {
+    const removedTask = tasks.filter((task) => task.id === id)
+    const tasksWithoutRemoved = tasks.filter((task) => task.id !== id)
+
+    if(removedTask[0].concluded){
+      setConcludedTasks(tasksWithoutRemoved.filter((task) => task.concluded === true))
+    }
+
+    setTasks(tasksWithoutRemoved)
   }
 
   const haveTasks = tasks.length !== 0
@@ -46,23 +96,40 @@ function App() {
           />
             <button type='submit' disabled={isNewTaskEmpty}>
               Criar 
-              <PlusCircle size={20} weight="bold"/>
+              <PlusCircle size={24} weight="bold"/>
             </button>
         </form>
-        <div className={styles.taskContainer}>
+        <div className={styles.taskCountContainer}>
           <TaskCounter 
-            taskNumber={3}
+            taskNumber={tasks.length}
             isConclude={false}
             text={'Tarefas Criadas'}
           />
           <TaskCounter 
-            taskNumber={3}
-            concludedTask={1}
+            taskNumber={tasks.length}
+            concludedTask={concludedTasks.length}
             isConclude
             text={'Concluídas'}
           />
         </div>
-        <EmptyTasks />
+        {
+          haveTasks ? 
+            <div className={styles.taskContainer}>
+              {tasks.map((task, i) => (
+                <Task 
+                  key={task.id}
+                  text={task.text} 
+                  id={task.id} 
+                  position={i}
+                  concluded={task.concluded}
+                  updateTasks={updateTasks}
+                  removeTasks={removeTasks}
+                />
+              ))}
+            </div>
+            : 
+            <EmptyTasks />
+        }
       </div>
     </div>
   )
