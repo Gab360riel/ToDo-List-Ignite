@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, InvalidEvent, useEffect, useState } from 'react
 import { PlusCircle } from 'phosphor-react'
 import { Header } from './components/Header'
 import { TaskCounter } from './components/TaskCounter'
+import {v4 as uuidv4} from "uuid";
 
 import styles from './App.module.css'
 import './global.css'
@@ -10,7 +11,7 @@ import { Task } from './components/Tasks'
 
 
 interface Tasks{
-  id: number,
+  id: string,
   text: string,
   concluded: boolean
 }
@@ -19,12 +20,12 @@ function App() {
   const [tasks, setTasks] = useState<Tasks[]>(
     [
       {
-        id: 1,
+        id: uuidv4(),
         text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
         concluded: false,
       }, 
       {
-        id: 2,
+        id: uuidv4(),
         text: 'Integer urna interdum massa libero auctor neque turpis turpis semper.',
         concluded: true
       }
@@ -37,7 +38,7 @@ function App() {
     e.preventDefault();
 
     const newObjectTask: Tasks = {
-      id: Math.random() * 1000,
+      id: uuidv4(),
       text: newTask,
       concluded: false
     }
@@ -55,7 +56,7 @@ function App() {
     e.target.setCustomValidity("Insira um valor válido para publicar a tarefa!")
   }
 
-  function updateTasks(value: boolean, id: number, position: number){
+  function updateTasks(value: boolean, id: string, position: number){
     const updateTask = tasks.filter((task) => task.id === id)
     updateTask[0].concluded = value
     
@@ -67,7 +68,7 @@ function App() {
     setConcludedTasks(updatedTasksArray.filter((task) => task.concluded === true))
   }
 
-  function removeTasks(id: number) {
+  function removeTasks(id: string) {
     const removedTask = tasks.filter((task) => task.id === id)
     const tasksWithoutRemoved = tasks.filter((task) => task.id !== id)
 

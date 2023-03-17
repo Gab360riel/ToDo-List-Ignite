@@ -5,11 +5,11 @@ import styles from './Tasks.module.css'
 
 interface TaskProps {
     text: string
-    id: number
+    id: string
     position: number
     concluded: boolean
-    updateTasks: (value: boolean, id: number, position: number) => void
-    removeTasks: (index: number) => void
+    updateTasks: (value: boolean, id: string, position: number) => void
+    removeTasks: (id: string) => void
 }
 
 export function Task({ text, id, position, concluded, updateTasks, removeTasks }: TaskProps) {
